@@ -3,7 +3,7 @@ import TwetchWallet from './twetch-wallet'
 
 const wallet = new TwetchWallet(config.metasync.seed, config.metasync.paymail)
 
-const postTwetch = async (content: string): Promise<void> => {
+const postTwetch = async (content: string, replyTx?: string): Promise<void> => {
 	try {
 		const result = await wallet._run_legacy_action({
 			action: 'twetch/post@0.0.1',
@@ -15,7 +15,7 @@ const postTwetch = async (content: string): Promise<void> => {
 				bContent: content,
 				bFilename: `twetch_twtext_${new Date().getTime()}.txt`,
 				type: 'post',
-				mapReply: 'null',
+				mapReply: replyTx || 'null',
 				mapTwdata: 'null'
 			}
 		})

@@ -11,3 +11,4 @@ get402.json
 **/*.swo
 *.swo
 *.swp
+.runcache

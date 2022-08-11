@@ -10,6 +10,9 @@ import * as boostpow from "boostpow"
 import TwetchWallet from "./twetch/twetch-wallet"
 
 import config from "./twetch/config"
+import { Script, Transaction, TxOut } from "bsv-wasm"
+
+
 
 interface CreateBoostPowTransaction {
     content_tx_id: string;
@@ -51,22 +54,18 @@ function createBoostpowTransaction(params: CreateBoostPowTransaction): bsv.Trans
 async function loadWallet() {
     const seed = config.metasync.seed
     const paymail = config.metasync.paymail
-
-    console.log(seed, paymail)
-
+    
     if(!seed){
         throw new Error('seed must be set')
     }
-
+    
     if(!paymail){
         throw new Error('paymail must be set')
     }
 
-    const twetch = new TwetchWallet(seed, paymail)
 
-    const xpriv = await twetch.xpriv_wallet()
+    const wallet = new TwetchWallet(seed,paymail)
 
-    const wallet = new Wallet(xpriv.toString())
 
     return wallet
 }
@@ -78,31 +77,28 @@ export async function boost({content_tx_id, content_tx_index, value, currency='U
 
         console.log({satoshis, difficulty})
 
-        let transaction = createBoostpowTransaction({ content_tx_id, content_tx_index, difficulty, satoshis})
-
-        console.log(transaction.serialize(true))
+        //let transaction = createBoostpowTransaction({ content_tx_id, content_tx_index, difficulty, satoshis})
 
         const wallet: any = await loadWallet()
 
-        transaction.from(wallet.utxos)
+        const job = boostpow.Job.fromObject({
+            content: content_tx_id,
+            diff: difficulty,
+            tag: 'BoostDat'
+        })
+        const transaction = new Transaction(2,null)
 
-        transaction.change(wallet.address)
+        const asm = job.toASM()
+        const script = Script.fromASMString(asm.toString())
 
-        transaction.sign(wallet.private_key)
+        const ouput = new TxOut(BigInt(satoshis), script)
+        transaction.addOutput(ouput)
 
-        console.log({ transaction })
+        const {rawtx, txid } = await wallet.buildTxForTransactionProps(transaction.toHex())
+        
+        let result = await run.blockchain.broadcast(rawtx)
 
-        console.log('SERIALIZE')
-
-        const hex = transaction.serialize(true)
-
-        console.log({ hex })
-
-        console.log({ hex, txid: transaction.hash })
-
-        return
-
-        let result = await run.blockchain.broadcast(hex)
+        return txid
 
     } catch (error) {
         

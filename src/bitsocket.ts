@@ -68,7 +68,7 @@ export function bitsocket(app_id: string) : EventEmitter {
 
                 if (emitter) {
 
-                    emitter.emit('order', output.target_txid)
+                    emitter.emit('order', {target: output.target_txid, call: output.call_txid})
 
                     emitter.emit('*', output)
                         
