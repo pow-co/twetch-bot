@@ -4,7 +4,7 @@
    "private": true,
    "description": "",
    "scripts": {
-      "start": "ts-node src/server.ts",
+      "start": "ts-node src/main.ts",
       "test": "NODE_ENV=test mocha --require=ts-node/register --timeout=20000 __tests__/**/*_test.ts --exit",
       "runtest": "NODE_ENV=test mocha --require=ts-node/register --timeout=20000 $1",
       "ci": "circleci local execute --job build",
@@ -14,18 +14,29 @@
    "author": "",
    "license": "",
    "dependencies": {
+      "@apollo/client": "^3.6.9",
       "@hapi/hapi": "^20.2.2",
       "@hapi/inert": "^6.0.5",
       "@hapi/joi": "^17.1.1",
       "@hapi/vision": "^6.1.0",
-      "dotenv": "^10.0.0",
+      "@twetch/sdk": "^0.2.12",
+      "axios": "^0.27.2",
+      "boostpow": "^1.8.1",
+      "bsv": "^1.5.6",
+      "bsv-wasm": "1.2.3",
+      "dotenv": "8.2.0",
+      "eventsource": "^2.0.2",
+      "filepay": "^2.2.12",
+      "graphql": "^16.5.0",
       "hapi-k8s-health": "^1.1.1",
       "hapi-swagger": "^14.3.0",
       "joi": "^17.6.0",
       "node-cron": "^3.0.0",
+      "node-fetch": "^2.6.6",
       "pg": "^8.4.0",
       "prom-client": "^14.0.1",
       "rabbi": "^1.17.4",
+      "run-sdk": "^0.6.40",
       "sequelize": "^6.9.0",
       "sequelize-typescript": "^2.1.3",
       "winston": "^3.3.3",
@@ -34,7 +45,8 @@
    "devDependencies": {
       "@hapi/code": "^8.0.7",
       "@hapi/lab": "^24.6.0",
-      "@types/node": "^8.10.66",
+      "@types/axios": "^0.14.0",
+      "@types/node": "^14.14.22",
       "chai": "^4.3.6",
       "chai-as-promised": "^7.1.1",
       "commitizen": "^4.2.4",
@@ -45,8 +57,8 @@
       "typescript": "^3.3.3333"
    },
    "config": {
-     "commitizen": {
-       "path": "./node_modules/cz-conventional-changelog"
-     }
+      "commitizen": {
+         "path": "./node_modules/cz-conventional-changelog"
+      }
    }
 }

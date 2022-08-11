@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
     "target": "es6",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
     "lib": [
-      "es6", "ES2015", "ES2016", "ES2017"
+      "es6", "ES2015", "ES2016", "ES2017", "ES2020"
     ],
     "allowJs": true,
     "module": "commonjs",
     "outDir": "dist",
 		"sourceMap": true,
-		"sourceRoot": "src"
+		"sourceRoot": "src",
+    "types": ["node"]
   },
   "exclude": [
     "node_modules",
