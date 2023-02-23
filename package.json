@@ -37,7 +37,7 @@
       "prom-client": "^14.0.1",
       "rabbi": "^1.17.4",
       "run-sdk": "^0.6.40",
-      "sequelize": "^6.9.0",
+      "sequelize": "^6.28.2",
       "sequelize-typescript": "^2.1.3",
       "winston": "^3.3.3",
       "ws": "^8.2.0"
